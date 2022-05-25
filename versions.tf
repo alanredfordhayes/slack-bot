@@ -4,7 +4,7 @@ terraform {
     organization = "alanredfordhayes"
 
     workspaces {
-      name = "jenkins"
+      name = "slack-bot"
     }
   }
 
