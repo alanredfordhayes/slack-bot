@@ -52,5 +52,5 @@ resource "aws_api_gateway_deployment" "slack-bot" {
 resource "aws_api_gateway_stage" "slack-bot" {
   deployment_id = aws_api_gateway_deployment.slack-bot.id
   rest_api_id   = aws_api_gateway_rest_api.slack-bot.id
-  stage_name    = local.aws_api_gateway_rest_api_name
+  stage_name    = local.aws_api_gateway_stage_stage_name
 }
