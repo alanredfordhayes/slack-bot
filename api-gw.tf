@@ -1,10 +1,10 @@
 locals {
   aws_api_gateway_rest_api_name = format("${var.name}-%s", "api-gateway")
-  aws_api_gateway_resource_path_part = var.name
+  aws_api_gateway_resource_path_part = var.path_part
   aws_api_gateway_method_authorization = "NONE"
   aws_api_gateway_method_http_method = "POST"
   aws_api_gateway_integration_type = "MOCK"
-  aws_api_gateway_stage_stage_name = var.name
+  aws_api_gateway_stage_stage_name = var.stage_name
 }
 
 resource "aws_api_gateway_rest_api" "slack-bot" {
