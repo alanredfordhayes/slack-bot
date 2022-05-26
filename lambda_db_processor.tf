@@ -22,6 +22,7 @@ resource "aws_lambda_function" "db_processor" {
   environment {
     variables = {
         slack_bot_table_name = local.slack_bot_db_processor_table_name
+        event_api_table_name = local.slack_bot_table_name
     }
   }
 }
