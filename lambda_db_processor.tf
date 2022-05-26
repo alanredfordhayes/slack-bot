@@ -6,7 +6,7 @@ locals {
 resource "aws_lambda_function" "db_processor" {
   function_name = local.aws_lambda_name
   description = local.aws_lambda_name
-  s3_bucket = aws_s3_bucket.db_processor.id
+  s3_bucket = aws_s3_bucket.event-api.id
   s3_key    = aws_s3_object.db_processor.key
   runtime = local.aws_lambda_function_runtime
   handler = local.aws_lambda_function_handler
