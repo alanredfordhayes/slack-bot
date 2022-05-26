@@ -20,7 +20,6 @@ resource "aws_lambda_function" "event-api" {
   s3_key    = aws_s3_object.event-api.key
   runtime = local.aws_lambda_function_runtime
   handler = local.aws_lambda_function_handler
-  layers = [aws_lambda_layer_version.lambda_layer.arn, aws_lambda_layer_version.lambda_layer_jira.arn]
   source_code_hash = data.archive_file.event-api.output_base64sha256
   role = aws_iam_role.event-api.arn
 }
