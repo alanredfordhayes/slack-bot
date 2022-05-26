@@ -11,7 +11,7 @@ data "archive_file" "event-api" {
 }
 
 resource "aws_s3_bucket" "event-api" {
-  bucket = "${var.name}_${random_string.event-api.result}"
+  bucket = "event_api_${random_string.event-api.result}"
   force_destroy = true
 }
 
