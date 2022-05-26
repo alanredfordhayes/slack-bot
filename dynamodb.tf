@@ -118,7 +118,7 @@ resource "aws_iam_policy" "event-api-stream" {
                   "dynamodb:GetShardIterator",
                   "dynamodb:ListStreams"
                 ]
-                Resource = "arn:aws:dynamodb:us-east-1:365351759635:table/${aws_dynamodb_table.ddm-slack-bot-challenge.name}/stream/*"
+                Resource = "arn:aws:dynamodb:us-east-1:216608214837:table/${aws_dynamodb_table.event-api.name}/stream/*"
             }]
         }
     )
