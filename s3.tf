@@ -7,6 +7,13 @@ data "archive_file" "event-api" {
   output_path = "${path.module}/event-api.zip"
 }
 
+data "archive_file" "db_processor" { 
+  type = "zip"
+
+  source_dir  = "${path.module}/db_processor"
+  output_path = "${path.module}/db_processor.zip"
+}
+
 resource "aws_s3_bucket" "event-api" {
   bucket_prefix = var.name
   force_destroy = true
