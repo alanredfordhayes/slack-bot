@@ -15,4 +15,5 @@ resource "aws_s3_object" "event-api" {
 
   key    = "event-api.zip"
   source = data.archive_file.event-api.output_path
+  etag = filemd5(data.archive_file.event-api.output_path)
 }
