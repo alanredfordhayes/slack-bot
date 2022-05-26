@@ -3,7 +3,7 @@ locals {
   aws_dynamodb_table_hash_key = "EventID"
   aws_dynamodb_table_read_capacity = 1
   aws_dynamodb_table_write_capacity = 1
-
+  aws_dynamodb_table_attribute_type = "S"
 }
 
 resource "aws_dynamodb_table" "event-api" {
@@ -15,7 +15,7 @@ resource "aws_dynamodb_table" "event-api" {
 
   attribute {
     name = local.aws_dynamodb_table_hash_key
-    type = "S"
+    type = local.aws_dynamodb_table_attribute
   }
 
   stream_enabled   = true
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "db_processor" {
 
   attribute {
     name = local.aws_dynamodb_table_hash_key
-    type = "S"
+    type = local.aws_dynamodb_table_attribute_type
   }
 
   lifecycle {
