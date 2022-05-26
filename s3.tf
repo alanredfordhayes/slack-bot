@@ -1,5 +1,5 @@
 data "archive_file" "event-api" {
-  type = local.archive_file_type
+  type = "zip"
 
   source_dir  = "${path.module}/event-api"
   output_path = "${path.module}/event-api.zip"
