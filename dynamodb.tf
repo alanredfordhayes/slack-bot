@@ -1,10 +1,14 @@
 locals {
+  # aws_dynamodb_table
   aws_dynamodb_table_billing_mode = "PROVISIONED"
   aws_dynamodb_table_hash_key = "EventID"
   aws_dynamodb_table_read_capacity = 1
   aws_dynamodb_table_write_capacity = 1
   aws_dynamodb_table_attribute_type = "S"
   aws_dynamodb_table_stream_enabled = true
+  aws_dynamodb_table_stream_view_type = "NEW_AND_OLD_IMAGES"
+
+  
 }
 
 resource "aws_dynamodb_table" "event-api" {
@@ -19,8 +23,8 @@ resource "aws_dynamodb_table" "event-api" {
     type = local.aws_dynamodb_table_attribute_type
   }
 
-  stream_enabled   = true
-  stream_view_type = "NEW_AND_OLD_IMAGES"
+  stream_enabled   = local.aws_dynamodb_table_stream_enabled
+  stream_view_type = local.aws_dynamodb_table_stream_view_type
 
   lifecycle {
     ignore_changes = [write_capacity, read_capacity]
