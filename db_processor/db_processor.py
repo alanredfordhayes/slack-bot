@@ -12,9 +12,13 @@ def lambda_handler(event, context):
     
     for record in event['Records']:
         
-        myeventID = record['eventID']
         table_item = {}
-        table_item['EventID'] = myeventID
+        table_item['EventID'] = record['eventID']
+        table_item['awsRegion'] = record['awsRegion']
+        table_item['dynamodb'] = record['dynamodb']
+        table_item['eventName'] = record['eventName']
+        table_item['eventSource'] = record['eventSource']
+        table_item['eventVersion'] = record['eventVersion']
         
         table.put_item(
             Item = table_item
