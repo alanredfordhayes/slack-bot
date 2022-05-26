@@ -13,6 +13,15 @@ locals {
   aws_cloudwatch_log_group_name = "/aws/lambda/${aws_lambda_function.event-api.function_name}"
 }
 
+resource "random_string" "event-api" {
+  length           = 8
+  special          = false
+}
+
+locals {
+  slack_bot_table_name = "${var.name}_${random_string.event-api.result}"
+}
+
 resource "aws_lambda_function" "event-api" {
   function_name = local.aws_lambda_name
   description = local.aws_lambda_name
@@ -22,6 +31,12 @@ resource "aws_lambda_function" "event-api" {
   handler = local.aws_lambda_function_handler
   source_code_hash = data.archive_file.event-api.output_base64sha256
   role = aws_iam_role.event-api.arn
+
+  environment {
+    variables = {
+        slack_bot_table_name = local.slack_bot_table_name
+    }
+  }
 }
 
 resource "aws_lambda_permission" "event-api" {
