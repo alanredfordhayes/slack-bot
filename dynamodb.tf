@@ -71,7 +71,7 @@ resource "aws_iam_policy" "event-api-dynamodb" {
 resource "aws_iam_policy" "event-api-log" {
     name = "${var.name}-log"
     path = "/"
-    description = "Policy for slackbot event-api dynamodb"
+    description = "Policy for slackbot event-api dynamodb log"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -90,7 +90,7 @@ resource "aws_iam_policy" "event-api-log" {
 resource "aws_iam_policy" "event-api-loggroup" {
     name = "${var.name}-loggroup"
     path = "/"
-    description = "Policy for slackbot event-api dynamodb"
+    description = "Policy for slackbot event-api dynamodb loggroup"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -103,10 +103,32 @@ resource "aws_iam_policy" "event-api-loggroup" {
     )
 }
 
+resource "aws_iam_policy" "event-api-stream" {
+    name = "${var.name}-stream"
+    path = "/"
+    description = "Policy for ddm slackbot challenge dynamodb stream"
+    policy = jsonencode(
+        {
+            Version = "2012-10-17"
+            Statement = [{
+                Effect = "Allow"
+                Action = [
+                  "dynamodb:DescribeStream",
+                  "dynamodb:GetRecords",
+                  "dynamodb:GetShardIterator",
+                  "dynamodb:ListStreams"
+                ]
+                Resource = "arn:aws:dynamodb:us-east-1:365351759635:table/${aws_dynamodb_table.ddm-slack-bot-challenge.name}/stream/*"
+            }]
+        }
+    )
+}
+
 resource "aws_iam_policy_attachment" "event-api-dynamodb" {
   name       = aws_iam_policy.event-api-dynamodb.name
   roles      = [
     aws_iam_role.event-api.name,
+    aws_iam_role.db_processor.name
   ]
   policy_arn = aws_iam_policy.event-api-dynamodb.arn
 }
@@ -115,6 +137,7 @@ resource "aws_iam_policy_attachment" "event-api-log" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
     aws_iam_role.event-api.name,
+    aws_iam_role.db_processor.name
   ]
   policy_arn = aws_iam_policy.event-api-log.arn
 }
@@ -123,6 +146,15 @@ resource "aws_iam_policy_attachment" "event-api-loggroup" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
     aws_iam_role.event-api.name,
+    aws_iam_role.db_processor.name
   ]
   policy_arn = aws_iam_policy.event-api-loggroup.arn
+}
+
+resource "aws_iam_policy_attachment" "event-api-stream" {
+  name       = aws_iam_policy.event-api-stream.name
+  roles      = [
+    aws_iam_role.db_processor.name
+  ]
+  policy_arn = aws_iam_policy.event-api-stream.arn
 }
