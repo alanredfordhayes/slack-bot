@@ -1,11 +1,14 @@
 locals {
+  #aws_lambda_function
+  aws_lambda_function_db_processor_function_name = "db_processor"
+
   #aws_cloudwatch_log_group
   aws_cloudwatch_db_processor_log_group_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
 }
 
 resource "aws_lambda_function" "db_processor" {
-  function_name = local.aws_lambda_name
-  description = local.aws_lambda_name
+  function_name = local.aws_lambda_function_db_processor_function_name
+  description = local.aws_lambda_function_db_processor_function_name
   s3_bucket = aws_s3_bucket.event-api.id
   s3_key    = aws_s3_object.db_processor.key
   runtime = local.aws_lambda_function_runtime
