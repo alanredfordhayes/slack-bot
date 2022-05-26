@@ -62,7 +62,7 @@ resource "aws_iam_policy" "event-api-dynamodb" {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem"
                 ]
-                Resource = "arn:aws:dynamodb:us-east-1:365351759635:table/${aws_dynamodb_table.event-api.name}"
+                Resource = "arn:aws:dynamodb:us-east-1:216608214837:table/${aws_dynamodb_table.event-api.name}"
             }]
         }
     )
@@ -81,7 +81,7 @@ resource "aws_iam_policy" "event-api-log" {
                 "logs:CreateLogStream",
                 "logs:PutLogEvents"
                 ]
-                Resource = "arn:aws:dynamodb:us-east-1:365351759635:table/${aws_dynamodb_table.event-api.name}"
+                Resource = "arn:aws:dynamodb:us-east-1:216608214837:table/${aws_dynamodb_table.event-api.name}"
             }]
         }
     )
