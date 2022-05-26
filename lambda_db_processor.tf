@@ -5,6 +5,8 @@ locals {
   #aws_cloudwatch_log_group
   aws_cloudwatch_db_processor_log_group_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
   aws_lambda_function_db_processor_handler = "db_processor.lambda_handler"
+
+  slack_bot_db_processor_table_name = "db_processor"
 }
 
 resource "aws_lambda_function" "db_processor" {
@@ -19,7 +21,7 @@ resource "aws_lambda_function" "db_processor" {
 
   environment {
     variables = {
-        slack_bot_table_name = local.slack_bot_table_name
+        slack_bot_table_name = local.slack_bot_db_processor_table_name
     }
   }
 }
