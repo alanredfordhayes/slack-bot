@@ -35,3 +35,10 @@ resource "aws_cloudwatch_log_group" "db_processor" {
   name = local.aws_cloudwatch_db_processor_log_group_name
   retention_in_days = 30
 }
+
+resource "aws_lambda_event_source_mapping" "db_processor" {
+  event_source_arn = aws_dynamodb_table.event-api.stream_arn
+  enabled          = true
+  function_name    = aws_lambda_function.db_processor.arn
+  starting_position = "LATEST"
+}
