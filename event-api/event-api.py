@@ -13,10 +13,10 @@ def lambda_handler(event, context):
         challenge = body['challenge']
         url_type = body['type']
         
-    responseObject = {}
-    responseObject['statusCode'] = 200
-    responseObject['headers'] = {}
-    responseObject['headers']['Content-Type'] = 'application/json'
-    responseObject['challenge'] = challenge
-        
-    return responseObject
+        responseObject = {}
+        responseObject['statusCode'] = 200
+        responseObject['headers'] = {}
+        responseObject['headers']['Content-Type'] = 'application/json'
+        responseObject['challenge'] = challenge
+            
+        return responseObject
