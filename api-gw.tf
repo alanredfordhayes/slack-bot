@@ -3,7 +3,7 @@ locals {
   aws_api_gateway_resource_path_part = var.path_part
   aws_api_gateway_method_authorization = "NONE"
   aws_api_gateway_method_http_method = "ANY"
-  aws_api_gateway_integration_type = "MOCK"
+  aws_api_gateway_integration_type = "AWS_PROXY"
   aws_api_gateway_stage_stage_name = var.stage_name
   aws_api_gateway_rest_api_endpoint_configuration_types = ["REGIONAL"]
 }
@@ -31,6 +31,7 @@ resource "aws_api_gateway_integration" "slack-bot" {
   resource_id = aws_api_gateway_resource.slack-bot.id
   rest_api_id = aws_api_gateway_rest_api.slack-bot.id
   type        = local.aws_api_gateway_integration_type
+  uri         = aws_lambda_function.event-api.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "slack-bot" {
