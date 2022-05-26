@@ -1,16 +1,6 @@
 locals {
-  #aws_lambda_function
-  aws_lambda_name = "db_processor"
-  aws_lambda_function_runtime = "python3.9"
-  aws_lambda_function_handler = "db_processor.lambda_handler"
-
-  #aws_lambda_permission
-  aws_lambda_permission_statement_id = "AllowExecutionFromAPIGateway"
-  aws_lambda_permission_action = "lambda:InvokeFunction"
-  aws_lambda_permission_principal = "apigateway.amazonaws.com"
-
   #aws_cloudwatch_log_group
-  aws_cloudwatch_log_group_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
+  aws_cloudwatch_db_processor_log_group_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
 }
 
 resource "aws_lambda_function" "db_processor" {
@@ -38,6 +28,6 @@ resource "aws_lambda_permission" "db_processor" {
 }
 
 resource "aws_cloudwatch_log_group" "db_processor" {
-  name = local.aws_cloudwatch_log_group_name
+  name = local.aws_cloudwatch_db_processor_log_group_name
   retention_in_days = 30
 }
