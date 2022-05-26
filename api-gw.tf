@@ -27,7 +27,7 @@ resource "aws_api_gateway_method" "slack-bot" {
 }
 
 resource "aws_api_gateway_integration" "slack-bot" {
-  http_method = aws_api_gateway_method.slack-bot.http_method
+  http_method = local.aws_api_gateway_method_http_method
   resource_id = aws_api_gateway_resource.slack-bot.id
   rest_api_id = aws_api_gateway_rest_api.slack-bot.id
   type        = local.aws_api_gateway_integration_type
