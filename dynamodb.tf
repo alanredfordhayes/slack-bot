@@ -18,6 +18,23 @@ resource "aws_dynamodb_table" "event-api" {
   }
 }
 
+resource "aws_dynamodb_table" "db_processor" {
+  name           = "db_processor"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "EventID"
+
+  attribute {
+    name = "EventID"
+    type = "S"
+  }
+
+  lifecycle {
+    ignore_changes = [write_capacity, read_capacity]
+  }
+}
+
 resource "aws_appautoscaling_target" "event-api" {
   max_capacity       = 10
   min_capacity       = 1
@@ -26,7 +43,15 @@ resource "aws_appautoscaling_target" "event-api" {
   service_namespace  = "dynamodb"
 }
 
-resource "aws_appautoscaling_policy" "devent-api" {
+resource "aws_appautoscaling_target" "db_processor" {
+  max_capacity       = 10
+  min_capacity       = 1
+  resource_id        = "table/${aws_dynamodb_table.db_processor.name}"
+  scalable_dimension = "dynamodb:table:ReadCapacityUnits"
+  service_namespace  = "dynamodb"
+}
+
+resource "aws_appautoscaling_policy" "event-api" {
   name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.event-api.resource_id}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.event-api.resource_id
@@ -42,6 +67,24 @@ resource "aws_appautoscaling_policy" "devent-api" {
   }
 
   depends_on = [aws_appautoscaling_target.event-api]
+}
+
+resource "aws_appautoscaling_policy" "db_processor" {
+  name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.db_processor.resource_id}"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.db_processor.resource_id
+  scalable_dimension = aws_appautoscaling_target.db_processor.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.db_processor.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "DynamoDBReadCapacityUtilization"
+    }
+
+    target_value = 70
+  }
+
+  depends_on = [aws_appautoscaling_target.db_processor]
 }
 
 resource "aws_iam_policy" "event-api-dynamodb" {
@@ -68,6 +111,30 @@ resource "aws_iam_policy" "event-api-dynamodb" {
     )
 }
 
+resource "aws_iam_policy" "db_processor-dynamodb" {
+    name = "${var.name}-db_processor-dynamodb"
+    path = "/"
+    description = "Policy for slackbot db_processor dynamodb"
+    policy = jsonencode(
+        {
+            Version = "2012-10-17"
+            Statement = [{
+                Effect = "Allow"
+                Action = [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem"
+                ]
+                Resource = "arn:aws:dynamodb:us-east-1:216608214837:table/${aws_dynamodb_table.db_processor.name}"
+            }]
+        }
+    )
+}
+
 resource "aws_iam_policy" "event-api-log" {
     name = "${var.name}-log"
     path = "/"
@@ -87,10 +154,45 @@ resource "aws_iam_policy" "event-api-log" {
     )
 }
 
+resource "aws_iam_policy" "db_processor-log" {
+    name = "${var.name}-db_processor-log"
+    path = "/"
+    description = "Policy for slackbot db_processor dynamodb log"
+    policy = jsonencode(
+        {
+            Version = "2012-10-17"
+            Statement = [{
+                Effect = "Allow"
+                Action = [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+                ]
+                Resource = "arn:aws:dynamodb:us-east-1:216608214837:table/${aws_dynamodb_table.db_processor.name}"
+            }]
+        }
+    )
+}
+
 resource "aws_iam_policy" "event-api-loggroup" {
     name = "${var.name}-loggroup"
     path = "/"
     description = "Policy for slackbot event-api dynamodb loggroup"
+    policy = jsonencode(
+        {
+            Version = "2012-10-17"
+            Statement = [{
+                Effect = "Allow"
+                Action = "logs:CreateLogGroup"
+                Resource = "*"
+            }]
+        }
+    )
+}
+
+resource "aws_iam_policy" "db_processor-loggroup" {
+    name = "${var.name}-db_processor-loggroup"
+    path = "/"
+    description = "Policy for slackbot db_processor dynamodb loggroup"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -133,6 +235,14 @@ resource "aws_iam_policy_attachment" "event-api-dynamodb" {
   policy_arn = aws_iam_policy.event-api-dynamodb.arn
 }
 
+resource "aws_iam_policy_attachment" "db_processor-dynamodb" {
+  name       = aws_iam_policy.db_processor-dynamodb.name
+  roles      = [
+    aws_iam_role.db_processor.name,
+  ]
+  policy_arn = aws_iam_policy.db_processor-dynamodb.arn
+}
+
 resource "aws_iam_policy_attachment" "event-api-log" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
@@ -142,13 +252,28 @@ resource "aws_iam_policy_attachment" "event-api-log" {
   policy_arn = aws_iam_policy.event-api-log.arn
 }
 
+resource "aws_iam_policy_attachment" "db_processor-log" {
+  name       = aws_iam_policy.db_processor-log.name
+  roles      = [
+    aws_iam_role.db_processor.name
+  ]
+  policy_arn = aws_iam_policy.db_processor-log.arn
+}
+
 resource "aws_iam_policy_attachment" "event-api-loggroup" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
-    aws_iam_role.event-api.name,
     aws_iam_role.db_processor.name
   ]
   policy_arn = aws_iam_policy.event-api-loggroup.arn
+}
+
+resource "aws_iam_policy_attachment" "db_processor-loggroup" {
+  name       = aws_iam_policy.db_processor-log.name
+  roles      = [
+    aws_iam_role.db_processor.name
+  ]
+  policy_arn = aws_iam_policy.db_processor-loggroup.arn
 }
 
 resource "aws_iam_policy_attachment" "event-api-stream" {
