@@ -1,4 +1,10 @@
-data "archive_file" "event-api" {
+resource "random_string" "event-api" {
+  length           = 16
+  special          = true
+  override_special = "/@£$"
+}
+
+data "archive_file" "event-api" { 
   type = "zip"
 
   source_dir  = "${path.module}/event-api"
@@ -6,7 +12,7 @@ data "archive_file" "event-api" {
 }
 
 resource "aws_s3_bucket" "event-api" {
-  bucket = var.name
+  bucket = "${var.name}-${random_string.event-api.result}"
   force_destroy = true
 }
 
