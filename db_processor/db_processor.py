@@ -12,8 +12,12 @@ def lambda_handler(event, context):
     
     for record in event['Records']:
         
+        myeventID = record['EventID']
+        table_item = {}
+        table_item['EventID'] = myeventID
+        
         table.put_item(
-            Item = record
+            Item = table_item
         )
     
     return {
