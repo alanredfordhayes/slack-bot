@@ -1,7 +1,7 @@
 ## API Gateway
 
 variable "name" {
-  default = "slackbot"
+  type = string
   description = "Defualt Name for the Progject"
   sensitive = false
 }
