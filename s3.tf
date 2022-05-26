@@ -1,5 +1,5 @@
 resource "random_string" "event-api" {
-  length           = 16
+  length           = 8
   special          = false
 }
 
