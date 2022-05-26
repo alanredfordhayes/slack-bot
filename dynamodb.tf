@@ -1,12 +1,20 @@
+locals {
+  aws_dynamodb_table_billing_mode = "PROVISIONED"
+  aws_dynamodb_table_hash_key = "EventID"
+  aws_dynamodb_table_read_capacity = 1
+  aws_dynamodb_table_write_capacity = 1
+
+}
+
 resource "aws_dynamodb_table" "event-api" {
   name           = local.slack_bot_table_name
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "EventID"
+  billing_mode   = local.aws_dynamodb_table_billing_mode
+  read_capacity  = local.aws_dynamodb_table_read_capacity
+  write_capacity = local.aws_dynamodb_table_write_capacity
+  hash_key       = local.aws_dynamodb_table_hash_key
 
   attribute {
-    name = "EventID"
+    name = local.aws_dynamodb_table_hash_key
     type = "S"
   }
 
@@ -20,13 +28,13 @@ resource "aws_dynamodb_table" "event-api" {
 
 resource "aws_dynamodb_table" "db_processor" {
   name           = "db_processor"
-  billing_mode   = "PROVISIONED"
-  read_capacity  = 1
-  write_capacity = 1
-  hash_key       = "EventID"
+  billing_mode   = local.aws_dynamodb_table_billing_mode
+  read_capacity  = local.aws_dynamodb_table_read_capacity
+  write_capacity = local.aws_dynamodb_table_write_capacity
+  hash_key       = local.aws_dynamodb_table_hash_key
 
   attribute {
-    name = "EventID"
+    name = local.aws_dynamodb_table_hash_key
     type = "S"
   }
 
