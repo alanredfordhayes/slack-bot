@@ -1,8 +1,3 @@
-resource "random_string" "event-api" {
-  length           = 8
-  special          = false
-}
-
 data "archive_file" "event-api" { 
   type = "zip"
 
