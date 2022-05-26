@@ -4,6 +4,7 @@ locals {
 
   #aws_cloudwatch_log_group
   aws_cloudwatch_db_processor_log_group_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
+  aws_lambda_function_db_processor_handler = "db_processor.lambda_handler"
 }
 
 resource "aws_lambda_function" "db_processor" {
@@ -12,7 +13,7 @@ resource "aws_lambda_function" "db_processor" {
   s3_bucket = aws_s3_bucket.event-api.id
   s3_key    = aws_s3_object.db_processor.key
   runtime = local.aws_lambda_function_runtime
-  handler = local.aws_lambda_function_handler
+  handler = local.aws_lambda_function_db_processor_handler
   source_code_hash = data.archive_file.db_processor.output_base64sha256
   role = aws_iam_role.db_processor.arn
 
