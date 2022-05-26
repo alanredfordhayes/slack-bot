@@ -47,7 +47,7 @@ resource "aws_appautoscaling_policy" "devent-api" {
 resource "aws_iam_policy" "event-api-dynamodb" {
     name = "${var.name}-dynamodb"
     path = "/"
-    description = "Policy for ddm slackbot challenge dynamodb"
+    description = "Policy for slackbot event-api dynamodb"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -71,7 +71,7 @@ resource "aws_iam_policy" "event-api-dynamodb" {
 resource "aws_iam_policy" "event-api-log" {
     name = "${var.name}-log"
     path = "/"
-    description = "Policy for ddm slackbot challenge dynamodb"
+    description = "Policy for slackbot event-api dynamodb"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -90,7 +90,7 @@ resource "aws_iam_policy" "event-api-log" {
 resource "aws_iam_policy" "event-api-loggroup" {
     name = "${var.name}-loggroup"
     path = "/"
-    description = "Policy for ddm slackbot challenge dynamodb"
+    description = "Policy for slackbot event-api dynamodb"
     policy = jsonencode(
         {
             Version = "2012-10-17"
@@ -106,7 +106,7 @@ resource "aws_iam_policy" "event-api-loggroup" {
 resource "aws_iam_policy_attachment" "event-api-dynamodb" {
   name       = aws_iam_policy.event-api-dynamodb.name
   roles      = [
-    aws_iam_role.challenge.name,
+    aws_iam_role.event-api.name,
   ]
   policy_arn = aws_iam_policy.event-api-dynamodb.arn
 }
@@ -114,7 +114,7 @@ resource "aws_iam_policy_attachment" "event-api-dynamodb" {
 resource "aws_iam_policy_attachment" "event-api-log" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
-    aws_iam_role.challenge.name,
+    aws_iam_role.event-api.name,
   ]
   policy_arn = aws_iam_policy.event-api-log.arn
 }
@@ -122,7 +122,7 @@ resource "aws_iam_policy_attachment" "event-api-log" {
 resource "aws_iam_policy_attachment" "event-api-loggroup" {
   name       = aws_iam_policy.event-api-log.name
   roles      = [
-    aws_iam_role.challenge.name,
+    aws_iam_role.event-api.name,
   ]
   policy_arn = aws_iam_policy.event-api-loggroup.arn
 }
