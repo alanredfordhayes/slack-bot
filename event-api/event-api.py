@@ -5,7 +5,7 @@ import os
 # DynamDB
 table_name = os.environ['slack_bot_table_name']
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('ddm-slackbot-challenge')
+table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
     # TODO implement
