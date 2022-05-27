@@ -13,17 +13,17 @@ def lambda_handler(event, context):
     httpMethod = event['httpMethod']
     
     if httpMethod == 'POST':
-        body = event['body']
-        body = json.loads(body)
-        challenge = body['challenge']
-        event_id = challenge
         # body = event['body']
         # body = json.loads(body)
-        # event_id = body['event_id']
-        # event['EventID'] = event_id
-        # table.put_item(
-        #     Item = event
-        # )
+        # challenge = body['challenge']
+        # event_id = challenge
+        body = event['body']
+        body = json.loads(body)
+        event_id = body['event_id']
+        event['EventID'] = event_id
+        table.put_item(
+            Item = event
+        )
         
     responseObject = {}
     responseObject['statusCode'] = 200
