@@ -66,7 +66,7 @@ def lambda_handler(event, context):
         event_api_record_item_body_event_text = event_api_record_item_body_event['text']
         event_api_record_item_body_event_text = event_api_record_item_body_event_text.split(' ')
         event_api_record_item_body_event_text = event_api_record_item_body_event_text[1]
-        event_api_record_item_body_channel = event_api_record_item_body['channel']
+        event_api_record_item_body_channel = event_api_record_item_body_event['channel']
         pt = parse_text(event_api_record_item_body_event_text, event_api_record_item_body_channel)
 
         
