@@ -17,22 +17,24 @@ locals {
 
   # Layers
   ## SLACK EVENT API
-  event_api_lambda = "${local.lambda}_event_api"
-  event_api_dynamodb = "${local.dynamodb}_event_api"
-  event_api_apigw = "${local.apigw}_event_api"
-  event_api_iam_policy = "${local.iam_policy}_event_api"
-  event_api_iam_role = "${local.iam_policy}_event_api"
+  event_api = "event_api"
+  event_api_lambda = "${local.lambda}_${local.event_api}"
+  event_api_dynamodb = "${local.dynamodb}_${local.event_api}"
+  event_api_apigw = "${local.apigw}_${local.event_api}"
+  event_api_iam_policy = "${local.iam_policy}_${local.event_api}"
+  event_api_iam_role = "${local.iam_policy}_${local.event_api}"
 
   ## DynamoDB Processor
-  db_processor_lambda = "${local.lambda}_db_processor"
-  db_processor_dynamodb = "${local.dynamodb}_db_processor"
-  db_processor_iam_policy = "${local.iam_policy}_db_processor"
-  db_processor_iam_role = "${local.iam_policy}_db_processor"
+  db_processor = "db_processor"
+  db_processor_lambda = "${local.lambda}_${local.db_processor}"
+  db_processor_dynamodb = "${local.dynamodb}_${local.db_processor}"
+  db_processor_iam_policy = "${local.iam_policy}_${local.db_processor}"
+  db_processor_iam_role = "${local.iam_policy}_${local.db_processor}"
 
   # Configuration
   ## API GATEWAY
   aws_api_gateway_rest_api_name = "${local.event_api_apigw}"
-  aws_api_gateway_resource_path_part = "event_api"
+  aws_api_gateway_resource_path_part = "${local.event_api}"
   aws_api_gateway_method_authorization = "NONE"
   aws_api_gateway_method_http_method = "ANY"
   aws_api_gateway_integration_integration_http_method = "POST"
@@ -75,19 +77,19 @@ locals {
   aws_iam_policy_event_api_name = "${local.event_api_iam_policy}"
   aws_iam_policy_db_processor_name = "${local.db_processor_iam_policy}"
   aws_iam_policy_path = "/"
-  aws_iam_policy_event_api_description = "Access Policy for the event_api lambda"
-  aws_iam_policy_db_processor_description = "Access Policy for the db_processor lambda"
+  aws_iam_policy_event_api_description = "Access Policy for the ${local.event_api} lambda"
+  aws_iam_policy_db_processor_description = "Access Policy for the ${local.db_processor} lambda"
 
   ##Lambda
   #aws_lambda_function
-  aws_lambda_function_event_api_function_name = "${local.event_api_lambda}"
+  aws_lambda_function_event_api_function_name = "${local.event_api}"
   aws_lambda_function_db_processor_function_name = "${local.db_processor_lambda}"
-  aws_lambda_function_event_api_description = "Lambda for the event_api"
-  aws_lambda_function_db_processor_description = "Lambda for the db_processor"
-  aws_lambda_name = "event_api"
+  aws_lambda_function_event_api_description = "Lambda for the ${local.event_api}"
+  aws_lambda_function_db_processor_description = "Lambda for the ${local.db_processor}"
+  aws_lambda_name = "${local.event_api}"
   aws_lambda_function_runtime = "python3.9"
-  aws_lambda_function_event_api_handler = "event_api.lambda_handler"
-  aws_lambda_function_db_processor_handler = "db_processor.lambda_handler"
+  aws_lambda_function_event_api_handler = "${local.event_api}.lambda_handler"
+  aws_lambda_function_db_processor_handler = "${local.db_processor}.lambda_handler"
   aws_lambda_function_event_api_env_event_api_table = "${local.event_api_dynamodb}"
   aws_lambda_function_db_processor_env_event_api_table = "${local.db_processor_dynamodb}"
 
