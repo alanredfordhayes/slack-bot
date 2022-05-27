@@ -8,12 +8,12 @@ variable "name" {
 
 variable "AWS_ACCOUNT_NUMBER" {}
 
-variable "path_part" {
-  default = "event_api"
-  description = "aws_api_gateway_resource_path_part"
-}
+# variable "path_part" {
+#   default = 
+#   description = "aws_api_gateway_resource_path_part"
+# }
 
-variable "stage_name" {
-  default = "dev"
-  description = "aws_api_gateway_stage_stage_name"
-}
+# variable "stage_name" {
+#   default = 
+#   description = "aws_api_gateway_stage_stage_name"
+# }
