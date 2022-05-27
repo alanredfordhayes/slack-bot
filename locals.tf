@@ -80,14 +80,14 @@ locals {
 
   ##Lambda
   #aws_lambda_function
-  aws_lambda_function_event_api_function_name = "event_api"
-  aws_lambda_function_db_processor_function_name = "db_processor"
+  aws_lambda_function_event_api_function_name = "${local.event_api_lambda}"
+  aws_lambda_function_db_processor_function_name = "${local.db_processor_lambda}"
   aws_lambda_function_event_api_description = "Lambda for the event_api"
   aws_lambda_function_db_processor_description = "Lambda for the db_processor"
   aws_lambda_name = "event_api"
   aws_lambda_function_runtime = "python3.9"
-  aws_lambda_function_event_api_handler = "event_api.lambda_handler"
-  aws_lambda_function_db_processor_handler = "db_processor.lambda_handler"
+  aws_lambda_function_event_api_handler = "${local.event_api_lambda}.lambda_handler"
+  aws_lambda_function_db_processor_handler = "${local.db_processor_lambda}.lambda_handler"
   aws_lambda_function_event_api_env_event_api_table = "${local.event_api_dynamodb}"
   aws_lambda_function_db_processor_env_event_api_table = "${local.db_processor_dynamodb}"
 
