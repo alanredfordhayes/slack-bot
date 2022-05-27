@@ -83,7 +83,7 @@ locals {
   ##Lambda
   #aws_lambda_function
   aws_lambda_function_event_api_function_name = "${local.event_api}"
-  aws_lambda_function_db_processor_function_name = "${local.db_processor_lambda}"
+  aws_lambda_function_db_processor_function_name = "${local.db_processor}"
   aws_lambda_function_event_api_description = "Lambda for the ${local.event_api}"
   aws_lambda_function_db_processor_description = "Lambda for the ${local.db_processor}"
   aws_lambda_name = "${local.event_api}"
