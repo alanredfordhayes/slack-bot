@@ -2,6 +2,7 @@ import json
 import boto3
 import os
 import logging
+from slack_bolt import App
 logging.getLogger().setLevel(logging.INFO)
 
 dynamodb = boto3.resource('dynamodb')
@@ -9,6 +10,43 @@ event_api_table_name = os.environ['event_api_table']
 event_api_table = dynamodb.Table(event_api_table_name)
 db_processor_table_name = os.environ['db_processor_table']
 db_processor_table = dynamodb.Table(db_processor_table_name)
+slack_bot_token = os.environ['SLACK_BOT_TOKEN']
+slack_signing_secret = os.environ['SLACK_SIGNING_SECRET']
+app = App(token=os.environ.get(slack_bot_token), signing_secret=os.environ.get(slack_signing_secret))
+
+def new(text):
+    logging.info(text)
+    
+def help():
+    logging.info("help")
+
+def status(text):
+    logging.info(text)
+
+def comments(text):
+    logging.info(text)
+
+def watchers(text):
+    logging.info(text)
+
+def parse_text(text, channel):
+    text = text.split("+")
+
+    if text[0] == None: 
+        command = help()
+    elif text[0] == "new":
+        command = new(text)
+    elif text[0] == "help":
+        command = help()
+    elif text[0] == "status":
+        command = status(text)
+    elif text[0] == "comments":
+        command = comments(text)
+    elif text[0] == "watchers":
+        command = watchers(text)        
+    else:
+        command = help()
+    return command
 
 def lambda_handler(event, context):
     for record in event['Records']:
@@ -27,9 +65,9 @@ def lambda_handler(event, context):
         event_api_record_item_body_event_text = event_api_record_item_body_event['text']
         event_api_record_item_body_event_text = event_api_record_item_body_event_text.split(' ')
         event_api_record_item_body_event_text = event_api_record_item_body_event_text[1]
-        item_type = type(event_api_record_item_body_event_text)
-        logging.info(item_type)
-        logging.info(event_api_record_item_body_event_text)
+        event_api_record_item_body_channel = event_api_record_item_body['channel']
+        pt = parse_text(event_api_record_item_body_event_text, event_api_record_item_body_channel)
+
         
         db_processor_table.put_item(Item = table_item)
     

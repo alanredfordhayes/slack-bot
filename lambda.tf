@@ -13,6 +13,8 @@ resource "aws_lambda_function" "event_api" {
   environment {
     variables = {
         event_api_table = local.aws_lambda_function_event_api_env_event_api_table
+        SLACK_BOT_TOKEN = var.SLACK_BOT_TOKEN
+        SLACK_SIGNING_SECRET = var.SLACK_SIGNING_SECRET
     }
   }
 }
@@ -30,6 +32,12 @@ resource "aws_cloudwatch_log_group" "event_api" {
 }
 
 ##DB PROCESSOR
+resource "aws_lambda_layer_version" "slack_bolt" {
+  filename   = local.aws_lambda_layer_version_slack_bolt_filename
+  layer_name = local.aws_lambda_layer_version_slack_bolt_layer_name
+  compatible_runtimes = local.aws_lambda_layer_version_slack_bolt_compatible_runtimes
+}
+
 resource "aws_lambda_function" "db_processor" {
   function_name = local.aws_lambda_function_db_processor_function_name
   description = local.aws_lambda_function_db_processor_description
@@ -37,6 +45,7 @@ resource "aws_lambda_function" "db_processor" {
   s3_key    = aws_s3_object.db_processor.key
   runtime = local.aws_lambda_function_runtime
   handler = local.aws_lambda_function_db_processor_handler
+  layers = [aws_lambda_layer_version.slack_bolt.arn]
   source_code_hash = data.archive_file.db_processor.output_base64sha256
   role = aws_iam_role.db_processor.arn
 

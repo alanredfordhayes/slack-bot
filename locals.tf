@@ -81,6 +81,10 @@ locals {
   aws_iam_policy_db_processor_description = "Access Policy for the ${local.db_processor} lambda"
 
   ##Lambda
+  ###aws_lambda_layer_version
+  aws_lambda_layer_version_slack_bolt_filename = "slack_bolt.zip"
+  aws_lambda_layer_version_slack_bolt_layer_name = "slack_bolt"
+  aws_lambda_layer_version_slack_bolt_compatible_runtimes = ["python3.9"]
   #aws_lambda_function
   aws_lambda_function_event_api_function_name = "${local.event_api}"
   aws_lambda_function_db_processor_function_name = "${local.db_processor}"
@@ -93,12 +97,12 @@ locals {
   aws_lambda_function_event_api_env_event_api_table = "${local.event_api_dynamodb}"
   aws_lambda_function_db_processor_env_event_api_table = "${local.db_processor_dynamodb}"
 
-  #aws_lambda_permission
+  ###aws_lambda_permission
   aws_lambda_permission_statement_id = "AllowExecutionFromAPIGateway"
   aws_lambda_permission_action = "lambda:InvokeFunction"
   aws_lambda_permission_principal = "apigateway.amazonaws.com"
 
-  #aws_cloudwatch_log_group
+  ###aws_cloudwatch_log_group
   aws_cloudwatch_log_event_api_group_name = "/aws/lambda/${aws_lambda_function.event_api.function_name}"
   aws_cloudwatch_log_event_db_processor_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
 }

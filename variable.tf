@@ -7,6 +7,8 @@ variable "name" {
 }
 
 variable "AWS_ACCOUNT_NUMBER" {}
+variable "SLACK_BOT_TOKEN" {}
+variable "SLACK_SIGNING_SECRET" {}
 
 # variable "path_part" {
 #   default = 
