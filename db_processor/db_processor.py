@@ -1,15 +1,12 @@
 import json
 import boto3
 import os
-
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-# DynamDB
 dynamodb = boto3.resource('dynamodb')
 event_api_table_name = os.environ['event_api_table']
 event_api_table = dynamodb.Table(event_api_table_name)
-
 db_processor_table_name = os.environ['db_processor_table']
 db_processor_table = dynamodb.Table(db_processor_table_name)
 
@@ -28,7 +25,8 @@ def lambda_handler(event, context):
         event_api_record_item_body = json.loads(event_api_record_item_body)
         event_api_record_item_body_event = event_api_record_item_body['event']
         event_api_record_item_body_event_text = event_api_record_item_body_event['text']
-        
+        event_api_record_item_body_event_text = event_api_record_item_body_event_text.split(' ')
+        event_api_record_item_body_event_text = event_api_record_item_body_event_text[1]
         item_type = type(event_api_record_item_body_event_text)
         logging.info(item_type)
         logging.info(event_api_record_item_body_event_text)
