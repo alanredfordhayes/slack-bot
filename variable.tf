@@ -6,10 +6,10 @@ variable "name" {
   sensitive = false
 }
 
-variable "AWS_ACCOUNT_NUMBER" {
-  type = string
-  description = "Account Number for AWS"
-}
+# variable "AWS_ACCOUNT_NUMBER" {
+#   type = string
+#   description = "Account Number for AWS"
+# }
 
 variable "path_part" {
   default = "event_api"
