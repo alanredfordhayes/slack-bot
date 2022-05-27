@@ -46,7 +46,7 @@ def parse_text(text, channel):
     elif text[0] == "watchers":
         command = pt_watchers(text)        
     else:
-        command = help()
+        command = pt_help()
     return command
 
 def lambda_handler(event, context):
