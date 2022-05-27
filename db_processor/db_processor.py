@@ -19,77 +19,25 @@ def pt_new(text):
     
 def pt_help(text, channel):
     logging.info("help")
+    
+    blocks = {"blocks": [
+    {"type": "header", "text": {"type": "plain_text","text": "Ticket Help","emoji": True}},
+    {"type": "section","text": {"type": "plain_text","text": "Here is a list of things that I do for you:","emoji": True}},
+    {"type": "actions","elements": [
+            {"type": "button","text": {"type": "plain_text","emoji": True,"text": "Create New Ticket"},"style": "primary","value": "click_me_123"},
+            {"type": "button","text": {"type": "plain_text","emoji": True,"text": "View Ticket Watchers"},"style": "primary","value": "click_me_123"},
+            {"type": "button","text": {"type": "plain_text","emoji": True,"text": "View Ticket Status"},"style": "primary","value": "click_me_123"},
+            {"type": "button","text": {"type": "plain_text","emoji": True,"text": "View Ticket Comments"},"style": "primary","value": "click_me_123"}
+    ]}]}
+    
+    attachment = json.loads(attachment)
+    
     result = app.chat_postMessage(
         channel=channel,
         text=text,
-        blocks=[
-            {
-                "blocks": [
-                    {
-                        "type": "header",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Ticket Help",
-                            "emoji": true
-                        }
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Here is a list of things that I do for you:",
-                            "emoji": true
-                        }
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "emoji": true,
-                                    "text": "Create New Ticket"
-                                },
-                                "style": "primary",
-                                "value": "click_me_123"
-                            },
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "emoji": true,
-                                    "text": "View Ticket Watchers"
-                                },
-                                "style": "primary",
-                                "value": "click_me_123"
-                            },
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "emoji": true,
-                                    "text": "View Ticket Status"
-                                },
-                                "style": "primary",
-                                "value": "click_me_123"
-                            },
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "emoji": true,
-                                    "text": "View Ticket Comments"
-                                },
-                                "style": "primary",
-                                "value": "click_me_123"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+        blocks=blocks
     )
+    
     logging.info(result)
 
 def pt_status(text):
