@@ -3,11 +3,12 @@ import boto3
 import os
 
 # DynamDB
-table_name = os.environ['db_processor_table']
-event_api_table_name = os.environ['event_api_table']
 dynamodb = boto3.resource('dynamodb')
-db_processor_table = dynamodb.Table(table_name)
+event_api_table_name = os.environ['event_api_table']
 event_api_table = dynamodb.Table(event_api_table_name)
+
+db_processor_table_name = os.environ['db_processor_table']
+db_processor_table = dynamodb.Table(db_processor_table_name)
 
 def lambda_handler(event, context):
     # TODO implement
