@@ -3,8 +3,8 @@ import boto3
 import os
 
 # DynamDB
-table_name = os.environ['slack_bot_table_name']
-event_api_table_name = os.environ['event_api_table_name']
+table_name = os.environ['db_processor_table']
+event_api_table_name = os.environ['event_api_table']
 dynamodb = boto3.resource('dynamodb')
 db_processor_table = dynamodb.Table(table_name)
 event_api_table = dynamodb.Table(event_api_table_name)

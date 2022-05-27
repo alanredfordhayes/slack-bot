@@ -2,8 +2,13 @@
 
 variable "name" {
   type = string
-  description = "Defualt Name for the Progject"
+  description = "Defualt Name for the Project"
   sensitive = false
+}
+
+variable "AWS_ACCOUNT_NUMBER" {
+  type = string
+  description = "Account Number for AWS"
 }
 
 variable "path_part" {

@@ -1,27 +1,25 @@
 # Event API
-
-data "archive_file" "event-api" { 
+data "archive_file" "event_api" { 
   type = "zip"
 
-  source_dir  = "${path.module}/event-api"
-  output_path = "${path.module}/event-api.zip"
+  source_dir  = "${path.module}/event_api"
+  output_path = "${path.module}/event_api.zip"
 }
 
-resource "aws_s3_bucket" "event-api" {
+resource "aws_s3_bucket" "event_api" {
   bucket_prefix = var.name
   force_destroy = true
 }
 
-resource "aws_s3_object" "event-api" {
-  bucket = aws_s3_bucket.event-api.id
+resource "aws_s3_object" "event_api" {
+  bucket = aws_s3_bucket.event_api.id
 
-  key    = "event-api.zip"
-  source = data.archive_file.event-api.output_path
-  etag = filemd5(data.archive_file.event-api.output_path)
+  key    = "event_api.zip"
+  source = data.archive_file.event_api.output_path
+  etag = filemd5(data.archive_file.event_api.output_path)
 }
 
 # DB Processor
-
 data "archive_file" "db_processor" { 
   type = "zip"
 
@@ -30,7 +28,7 @@ data "archive_file" "db_processor" {
 }
 
 resource "aws_s3_object" "db_processor" {
-  bucket = aws_s3_bucket.event-api.id
+  bucket = aws_s3_bucket.event_api.id
 
   key    = "db_processor.zip"
   source = data.archive_file.db_processor.output_path
