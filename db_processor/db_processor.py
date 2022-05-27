@@ -36,9 +36,9 @@ def lambda_handler(event, context):
         
         event_api_record_item = event_api_record['Item']
         event_api_record_item_type = type(event_api_record_item)
-        logging.info('event_api_record_item_type', event_api_record_item_type)
+        logging.info(event_api_record_item_type)
         event_api_record_item_keys = event_api_record.keys()
-        logging.info('event_api_record_item_keys', event_api_record_item_keys)
+        logging.info(event_api_record_item_keys)
         
         db_processor_table.put_item(
             Item = table_item
