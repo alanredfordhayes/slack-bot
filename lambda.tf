@@ -9,14 +9,7 @@ resource "aws_lambda_function" "event_api" {
   handler = local.aws_lambda_function_event_api_handler
   source_code_hash = data.archive_file.event_api.output_base64sha256
   role = aws_iam_role.event_api.arn
-
-  environment {
-    variables = {
-        event_api_table = local.aws_lambda_function_event_api_env_event_api_table
-        SLACK_BOT_TOKEN = var.SLACK_BOT_TOKEN
-        SLACK_SIGNING_SECRET = var.SLACK_SIGNING_SECRET
-    }
-  }
+  environment {variables ={event_api_table = local.aws_lambda_function_event_api_env_event_api_table}}
 }
 
 resource "aws_lambda_permission" "event_api" {
@@ -53,6 +46,8 @@ resource "aws_lambda_function" "db_processor" {
     variables = {
         db_processor_table = local.aws_lambda_function_db_processor_env_event_api_table
         event_api_table = local.aws_lambda_function_event_api_env_event_api_table
+        SLACK_BOT_TOKEN = var.SLACK_BOT_TOKEN
+        SLACK_SIGNING_SECRET = var.SLACK_SIGNING_SECRET
     }
   }
 }
