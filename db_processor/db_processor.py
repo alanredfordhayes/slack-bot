@@ -2,6 +2,9 @@ import json
 import boto3
 import os
 
+import logging
+logging.getLogger().setLevel(logging.INFO)
+
 # DynamDB
 dynamodb = boto3.resource('dynamodb')
 event_api_table_name = os.environ['event_api_table']
@@ -14,6 +17,7 @@ def lambda_handler(event, context):
     # TODO implement
     
     for record in event['Records']:
+        
         
         table_item = {}
         table_item['EventID'] = record['eventID']
@@ -28,6 +32,10 @@ def lambda_handler(event, context):
                 'EventID': table_item['dynamodb']
             }
         )
+        logging.info(event_api_record)
+        
+        event_api_record_item = event_api_record['Item']
+        logging.info(event_api_record_item)
         
         db_processor_table.put_item(
             Item = table_item
