@@ -32,13 +32,16 @@ def lambda_handler(event, context):
                 'EventID': table_item['dynamodb']
             }
         )
-        logging.info(event_api_record)
         
         event_api_record_item = event_api_record['Item']
         event_api_record_item_body = event_api_record_item['body']
-        item_type = type(event_api_record_item_body)
+        event_api_record_item_body = json.loads(event_api_record_item_body)
+        event_api_record_item_body_event = event_api_record_item_body['event']
+        
+        
+        item_type = type(event_api_record_item_body_event)
         logging.info(item_type)
-        logging.info(event_api_record_item_body)
+        logging.info(event_api_record_item_body_event)
         
         db_processor_table.put_item(
             Item = table_item
