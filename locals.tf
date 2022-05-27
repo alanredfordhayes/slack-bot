@@ -17,14 +17,14 @@ locals {
   # Layers
   ## SLACK EVENT API
   event_api_lambda = "${local.lambda}_event_api"
-  event_api_dynamodb = "${local.dyanmodb}_event_api"
+  event_api_dynamodb = "${local.dynamodb}_event_api"
   event_api_apigw = "${local.apigw}_event_api"
   event_api_iam_policy = "${local.iam_policy}_event_api"
   event_api_iam_role = "${local.iam_policy}_event_api"
 
   ## DynamoDB Processor
   db_processor_lambda = "${local.lambda}_db_processor"
-  db_processor_dynamodb = "${local.dyanmodb}_db_processor"
+  db_processor_dynamodb = "${local.dynamodb}_db_processor"
   db_processor_iam_policy = "${local.iam_policy}_db_processor"
   db_processor_iam_role = "${local.iam_policy}_db_processor"
 
@@ -64,8 +64,8 @@ locals {
 
   ## IAM
   ### aws_iam_role
-  aws_iam_role_event_api_name = "${local.event_api_iam}"
-  aws_iam_role_db_processor_name = "${local.db_processor_iam}"
+  aws_iam_role_event_api_name = "${local.event_api_iam_role}"
+  aws_iam_role_db_processor_name = "${local.db_processor_iam_role}"
 
   ### aws_iam_role_policy_attachment
   aws_iam_role_policy_attachment_policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
