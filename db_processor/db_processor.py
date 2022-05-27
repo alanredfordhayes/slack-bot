@@ -75,6 +75,7 @@ def lambda_handler(event, context):
         table_item['eventName'] = record['eventName']
         table_item['eventSource'] = record['eventSource']
         table_item['eventVersion'] = record['eventVersion']
+        logging.info(table_item['dynamodb'])
         event_api_record = event_api_table.get_item(Key={'EventID': table_item['dynamodb']})
         event_api_record_item = event_api_record['Item']
         event_api_record_item_body = event_api_record_item['body']
