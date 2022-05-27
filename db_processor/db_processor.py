@@ -29,9 +29,6 @@ def lambda_handler(event, context):
             }
         )
         
-        body = event_api_record['body']
-        
-        
         db_processor_table.put_item(
             Item = table_item
         )
