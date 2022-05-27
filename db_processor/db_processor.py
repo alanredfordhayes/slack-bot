@@ -14,19 +14,19 @@ slack_bot_token = os.environ['SLACK_BOT_TOKEN']
 slack_signing_secret = os.environ['SLACK_SIGNING_SECRET']
 app = App(token=os.environ.get(slack_bot_token), signing_secret=os.environ.get(slack_signing_secret))
 
-def new(text):
+def pt_new(text):
     logging.info(text)
     
-def help(text):
+def pt_help(text):
     logging.info("help")
 
-def status(text):
+def pt_status(text):
     logging.info(text)
 
-def comments(text):
+def pt_comments(text):
     logging.info(text)
 
-def watchers(text):
+def pt_watchers(text):
     logging.info(text)
 
 def parse_text(text, channel):
@@ -34,17 +34,17 @@ def parse_text(text, channel):
     message['channel'] = channel
 
     if text[0] == None: 
-        command = help(text)
+        command = pt_help(text)
     elif text[0] == "new":
-        command = new(text)
+        command = pt_new(text)
     elif text[0] == "help":
-        command = help(text)
+        command = pt_help(text)
     elif text[0] == "status":
-        command = status(text)
+        command = pt_status(text)
     elif text[0] == "comments":
-        command = comments(text)
+        command = pt_comments(text)
     elif text[0] == "watchers":
-        command = watchers(text)        
+        command = pt_watchers(text)        
     else:
         command = help()
     return command
