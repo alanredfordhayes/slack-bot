@@ -22,7 +22,7 @@ resource "aws_api_gateway_integration" "slack-bot" {
   rest_api_id             = aws_api_gateway_rest_api.slack-bot.id
   integration_http_method = local.aws_api_gateway_integration_integration_http_method
   type                    = local.aws_api_gateway_integration_type
-  uri                     = aws_lambda_function.event-api.invoke_arn
+  uri                     = aws_lambda_function.event_api.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "slack-bot" {
