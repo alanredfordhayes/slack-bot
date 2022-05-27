@@ -17,8 +17,80 @@ app = App(token=os.environ.get(slack_bot_token), signing_secret=os.environ.get(s
 def pt_new(text):
     logging.info(text)
     
-def pt_help(text):
+def pt_help(text, channel):
     logging.info("help")
+    result = app.chat_postMessage(
+        channel=channel,
+        text=text,
+        blocks=[
+            {
+                "blocks": [
+                    {
+                        "type": "header",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Ticket Help",
+                            "emoji": true
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Here is a list of things that I do for you:",
+                            "emoji": true
+                        }
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "emoji": true,
+                                    "text": "Create New Ticket"
+                                },
+                                "style": "primary",
+                                "value": "click_me_123"
+                            },
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "emoji": true,
+                                    "text": "View Ticket Watchers"
+                                },
+                                "style": "primary",
+                                "value": "click_me_123"
+                            },
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "emoji": true,
+                                    "text": "View Ticket Status"
+                                },
+                                "style": "primary",
+                                "value": "click_me_123"
+                            },
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "emoji": true,
+                                    "text": "View Ticket Comments"
+                                },
+                                "style": "primary",
+                                "value": "click_me_123"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    )
+    logging.info(result)
 
 def pt_status(text):
     logging.info(text)
@@ -30,11 +102,8 @@ def pt_watchers(text):
     logging.info(text)
 
 def parse_text(text, channel):
-    message = {}
-    message['channel'] = channel
-
     if text[0] == None: 
-        command = pt_help(text)
+        command = pt_help(text, channel)
     elif text[0] == "new":
         command = pt_new(text)
     elif text[0] == "help":
@@ -46,7 +115,7 @@ def parse_text(text, channel):
     elif text[0] == "watchers":
         command = pt_watchers(text)        
     else:
-        command = pt_help(text)
+        command = pt_help(text, channel)
     return command
 
 def lambda_handler(event, context):
