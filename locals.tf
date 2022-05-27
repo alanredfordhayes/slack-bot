@@ -86,6 +86,7 @@ locals {
   aws_lambda_name = "event_api"
   aws_lambda_function_runtime = "python3.9"
   aws_lambda_function_event_api_handler = "event_api.lambda_handler"
+  aws_lambda_function_db_processor_handler = "db_processor.lambda_handler"
   aws_lambda_function_event_api_env_event_api_table = "${local.event_api_dynamodb}"
   aws_lambda_function_db_processor_env_event_api_table = "${local.db_processor_dynamodb}"
 
