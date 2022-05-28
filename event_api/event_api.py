@@ -38,9 +38,14 @@ app = App(process_before_response=True)
 
 @app.event("app_mention")
 def handle_app_mentions(body, say):
-    event_api_record = table.get_item(Key={'EventID': body['event']['channel']})
+    channel_id = table.get_item(Key={'EventID': body['event']['channel']})
     logging.info(body)
-    say("What's up?")
+    say("Looking for techsupport?")
+    result = app.client.chat_postMessage(
+        channel=channel_id,
+        text="Hello world!"
+        # You could also use a blocks[] array to send richer content
+    )
 
 def lambda_handler(event, context):
     httpMethod = event['httpMethod']
