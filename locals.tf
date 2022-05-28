@@ -53,7 +53,7 @@ locals {
   aws_dynamodb_table_write_capacity = 1
   aws_dynamodb_table_attribute_type = "S"
   aws_dynamodb_table_stream_enabled = true
-  aws_dynamodb_table_stream_view_type = "NEW_AND_OLD_IMAGES"
+  aws_dynamodb_table_stream_view_type = "NEW_IMAGE"
 
   ### aws_appautoscaling_target
   aws_appautoscaling_target_max_capacity = 10
