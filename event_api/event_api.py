@@ -19,6 +19,7 @@ def lambda_handler(event, context):
         # event_id = challenge
         body = event['body']
         body = json.loads(body)
+        logging.info(body)
         event_id = body['event_id']
         event['EventID'] = event_id
         table.put_item(Item = event) 
