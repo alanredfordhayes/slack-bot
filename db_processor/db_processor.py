@@ -30,8 +30,6 @@ def pt_help(text, channel):
             {"type": "button","text": {"type": "plain_text","emoji": True,"text": "View Ticket Comments"},"style": "primary","value": "click_me_123"}
     ]}]}
     
-    blocks = json.loads(blocks)
-    
     result = app.chat_postMessage(
         channel=channel,
         text=text,
