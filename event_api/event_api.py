@@ -37,7 +37,7 @@ def dynamodb_put_item(event):
 app = App(process_before_response=True)
 
 @app.event("app_mention")
-def handle_app_mentions(body, say):
+def handle_app_mentions(body, say, table):
     channel_id = table.get_item(Key={'EventID': body['event']['channel']})
     logging.info(body)
     result = app.client.chat_postMessage(
