@@ -86,9 +86,7 @@ def lambda_handler(event, context):
         event_api_record_item_body_channel = event_api_record_item_body_event['channel']
         event_api_record_item_body_event_text = event_api_record_item_body_event['text']
         event_api_record_item_body_event_text_dict = event_api_record_item_body_event_text.split(' ')        
-        if len(event_api_record_item_body_event_text_dict) > 1:
-            event_api_record_item_body_event_text = event_api_record_item_body_event_text_dict[1]
- 
+        if len(event_api_record_item_body_event_text_dict) > 1: event_api_record_item_body_event_text = event_api_record_item_body_event_text_dict[1]
         pt = parse_text(event_api_record_item_body_event_text, event_api_record_item_body_channel)
         
         db_processor_table.put_item(Item = table_item)
