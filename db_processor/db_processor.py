@@ -67,7 +67,9 @@ def parse_text(text, channel):
     return command
 
 def lambda_handler(event, context):
+    
     for record in event['Records']:
+        
         table_item = {}
         table_item['EventID'] = record['eventID']
         table_item['awsRegion'] = record['awsRegion']
@@ -81,13 +83,14 @@ def lambda_handler(event, context):
         event_api_record_item_body = event_api_record_item['body']
         event_api_record_item_body = json.loads(event_api_record_item_body)
         event_api_record_item_body_event = event_api_record_item_body['event']
-        event_api_record_item_body_event_text = event_api_record_item_body_event['text']
-        event_api_record_item_body_event_text = event_api_record_item_body_event_text.split(' ')
-        event_api_record_item_body_event_text = event_api_record_item_body_event_text[1]
-        logging.info(event_api_record_item_body_event_text)
         event_api_record_item_body_channel = event_api_record_item_body_event['channel']
-        logging.info(event_api_record_item_body_channel)
-        # pt = parse_text(event_api_record_item_body_event_text, event_api_record_item_body_channel)
+        event_api_record_item_body_event_text = event_api_record_item_body_event['text']
+        event_api_record_item_body_event_text_dict = event_api_record_item_body_event_text.split(' ')        
+        if len(event_api_record_item_body_event_text_dict) > 1:
+            event_api_record_item_body_event_text = event_api_record_item_body_event_text_dict[1]
+ 
+        pt = parse_text(event_api_record_item_body_event_text, event_api_record_item_body_channel)
+        
         db_processor_table.put_item(Item = table_item)
     
     return {
