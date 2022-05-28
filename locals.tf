@@ -24,13 +24,6 @@ locals {
   event_api_iam_policy = "${local.iam_policy}_${local.event_api}"
   event_api_iam_role = "${local.iam_policy}_${local.event_api}"
 
-  ## DynamoDB Processor
-  db_processor = "db_processor"
-  db_processor_lambda = "${local.lambda}_${local.db_processor}"
-  db_processor_dynamodb = "${local.dynamodb}_${local.db_processor}"
-  db_processor_iam_policy = "${local.iam_policy}_${local.db_processor}"
-  db_processor_iam_role = "${local.iam_policy}_${local.db_processor}"
-
   # Configuration
   ## API GATEWAY
   aws_api_gateway_rest_api_name = "${local.event_api_apigw}"
@@ -45,7 +38,6 @@ locals {
   ## DYNAMODB
   ### aws_dynamodb_table
   aws_dynamodb_table_event_api_name = "${local.event_api_dynamodb}"
-  aws_dynamodb_table_db_processor_name = "${local.db_processor_dynamodb}"
 
   aws_dynamodb_table_billing_mode = "PROVISIONED"
   aws_dynamodb_table_hash_key = "EventID"
@@ -68,17 +60,14 @@ locals {
   ## IAM
   ### aws_iam_role
   aws_iam_role_event_api_name = "${local.event_api_iam_role}"
-  aws_iam_role_db_processor_name = "${local.db_processor_iam_role}"
 
   ### aws_iam_role_policy_attachment
   aws_iam_role_policy_attachment_policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 
   ### Policies
   aws_iam_policy_event_api_name = "${local.event_api_iam_policy}"
-  aws_iam_policy_db_processor_name = "${local.db_processor_iam_policy}"
   aws_iam_policy_path = "/"
   aws_iam_policy_event_api_description = "Access Policy for the ${local.event_api} lambda"
-  aws_iam_policy_db_processor_description = "Access Policy for the ${local.db_processor} lambda"
 
   ##Lambda
   ###aws_lambda_layer_version
@@ -87,15 +76,12 @@ locals {
   aws_lambda_layer_version_slack_bolt_compatible_runtimes = ["python3.9"]
   #aws_lambda_function
   aws_lambda_function_event_api_function_name = "${local.event_api}"
-  aws_lambda_function_db_processor_function_name = "${local.db_processor}"
   aws_lambda_function_event_api_description = "Lambda for the ${local.event_api}"
-  aws_lambda_function_db_processor_description = "Lambda for the ${local.db_processor}"
   aws_lambda_name = "${local.event_api}"
   aws_lambda_function_runtime = "python3.9"
   aws_lambda_function_event_api_handler = "${local.event_api}.lambda_handler"
-  aws_lambda_function_db_processor_handler = "${local.db_processor}.lambda_handler"
   aws_lambda_function_event_api_env_event_api_table = "${local.event_api_dynamodb}"
-  aws_lambda_function_db_processor_env_event_api_table = "${local.db_processor_dynamodb}"
+
 
   ###aws_lambda_permission
   aws_lambda_permission_statement_id = "AllowExecutionFromAPIGateway"
@@ -104,5 +90,4 @@ locals {
 
   ###aws_cloudwatch_log_group
   aws_cloudwatch_log_event_api_group_name = "/aws/lambda/${aws_lambda_function.event_api.function_name}"
-  aws_cloudwatch_log_event_db_processor_name = "/aws/lambda/${aws_lambda_function.db_processor.function_name}"
 }
