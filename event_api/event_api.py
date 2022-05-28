@@ -40,7 +40,6 @@ app = App(process_before_response=True)
 def handle_app_mentions(body, say):
     channel_id = table.get_item(Key={'EventID': body['event']['channel']})
     logging.info(body)
-    say("Looking for techsupport?")
     result = app.client.chat_postMessage(
         channel=channel_id,
         text="Hello world!"
