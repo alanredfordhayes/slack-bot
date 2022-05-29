@@ -99,6 +99,23 @@ def handle_submission(ack, body, client, view, logger):
     except Exception as e:
         logger.exception(f"Failed to post a message {e}")
     
+    
+@app.action({
+    "block_id": "create_ticket_issue_type",
+    "action_id": "static_select_action"
+})
+def create_ticket_issue_type(ack, body, logger):
+    ack()
+    logger.info(body)
+
+@app.action({
+    "block_id": "create_new_ticket_priority",
+    "action_id": "static_select_action"
+})
+def create_ticket_issue_type(ack, body, logger):
+    ack()
+    logger.info(body)
+
 @app.action({
     "block_id": "help_buttons",
     "action_id": "view_ticket_watchers"
