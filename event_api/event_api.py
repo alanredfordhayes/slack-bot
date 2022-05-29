@@ -74,7 +74,7 @@ def create_ticket(ack, body, client):
 @app.view("view_1")
 def handle_submission(ack, body, client, view, logger):
     create_ticket_issue_type = view["state"]["values"]["create_ticket_issue_type"]["static_select_action"]
-    create_new_ticket_summary = view["state"]["values"]["create_ticket_issue_type"]["plain_text_input_action"]
+    create_new_ticket_summary = view["state"]["values"]["create_new_ticket_summary"]["plain_text_input_action"]
     create_new_ticket_description = view["state"]["values"]["create_new_ticket_description"]['plain_text_input_action']
     create_new_ticket_priority = view["state"]["values"]["create_new_ticket_priority"]["static_select_action"]
     user = body["user"]["id"]
