@@ -26,8 +26,8 @@ table_name = os.environ['event_api_table']
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(table_name)
 
-def dynamodb_put_item(event):
-    event_id = event['event_id']
+def dynamodb_put_item(body, event):
+    event_id = body['event_id']
     event['EventID'] = event_id
     table.put_item(Item = event)
 
@@ -35,8 +35,8 @@ def dynamodb_put_item(event):
 app = App(process_before_response=True)
 
 @app.event("app_mention")
-def handle_app_mentions(event, client):
-    dynamodb_put_item(event)
+def handle_app_mentions(event, client, body):
+    dynamodb_put_item(body, event)
     channel = event['channel']
     blocks = [
 		{ "block_id": "help_headers","type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
