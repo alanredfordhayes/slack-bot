@@ -69,7 +69,12 @@ def approve_request(ack, say):
 def lambda_handler(event, context):
     httpMethod = event['httpMethod']
     if httpMethod == 'POST':
-        dynamodb_put_item(event)
+        body = event['body']
+        body = json.loads(body)
+        logging.info(body)
+        event_id = body['event_id']
+        event['EventID'] = event_id
+        table.put_item(Item = event)
         slack_handler = SlackRequestHandler(app=app)
 
     return slack_handler.handle(event, context)
