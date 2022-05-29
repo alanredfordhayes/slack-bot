@@ -5,6 +5,7 @@ import time
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 import logging
+logging.getLogger().setLevel(logging.INFO)
 
 # DynamDB
 # Challenge Message
