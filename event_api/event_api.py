@@ -27,10 +27,7 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(table_name)
 
 def dynamodb_put_item(event):
-    event_body = event['body']
-    event_body = json.loads(event_body)
-    logging.info(event_body)
-    event_id = event_body['event_id']
+    event_id = event['event_id']
     event['EventID'] = event_id
     table.put_item(Item = event)
 
