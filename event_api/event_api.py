@@ -82,7 +82,7 @@ def handle_submission(ack, body, client, view, logger):
     msg = "Please complete the form with all document fields completed."
     if create_ticket_issue_type == None:
         errors['create_ticket_issue_type'] = msg
-    elif create_new_ticket_summary = None:
+    elif create_new_ticket_summary == None:
         errors['create_new_ticket_summary'] = msg
     elif create_new_ticket_description == None:
         errors['create_new_ticket_description'] = msg
