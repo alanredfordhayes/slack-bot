@@ -40,14 +40,14 @@ app = App(process_before_response=True)
 def handle_app_mentions(event, client):
     channel = event['channel']
     blocks = [
-		{ "type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
-		{ "type": "section", "text": { "type": "plain_text", "text": "Here is a list of things that I do for you:", "emoji": True } },
-		{
-			"type": "actions", "elements": [
-				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "Create New Ticket" }, "style": "primary", "value": "create_new_ticket" },
-				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Watchers" }, "style": "primary", "value": "view_ticket_watchers" },
-				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "View Ticket Status" }, "style": "primary", "value": "view_ticket_status" },
-				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Comments" }, "style": "primary", "value": "view_ticket)_comments" }
+		{ "block_id": "help_headers","type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
+		{ "block_id": "help_description", "type": "section", "text": { "type": "plain_text", "text": "Here is a list of things that I do for you:", "emoji": True } },
+		{   
+			"block_id": "help_buttons", "type": "actions", "elements": [
+				{ "action_id": "create_new_ticket", "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "Create New Ticket" }, "style": "primary", "value": "create_new_ticket" },
+				{ "action_id": "view_ticket_watchers", "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Watchers" }, "style": "primary", "value": "view_ticket_watchers" },
+				{ "action_id": "view_ticket_status", "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "View Ticket Status" }, "style": "primary", "value": "view_ticket_status" },
+				{ "action_id": "view_ticket_comments", "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Comments" }, "style": "primary", "value": "view_ticket_comments" }
 			]
 		}
 	]
@@ -57,7 +57,10 @@ def handle_app_mentions(event, client):
         text = "Here is a list of things that I do for you:"
     )
     
-@app.action("approve_button")
+@app.action({
+    "block_id": "help_buttons",
+    "action_id": "create_new_ticket"
+})
 def approve_request(ack, say):
     # Acknowledge action request
     ack()
