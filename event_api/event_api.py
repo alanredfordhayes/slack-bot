@@ -71,26 +71,143 @@ def approve_request(ack, body, client):
             "type": "modal",
             # View identifier
             "callback_id": "view_1",
-            "title": {"type": "plain_text", "text": "create_new_ticket"},
-            "submit": {"type": "plain_text", "text": "Submit"},
+            "title": {"type": "plain_text", "text": "Create New Support Ticket"},
             "blocks": [
                 {
+                    "type": "divider"
+                },
+                {
                     "type": "section",
-                    "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "Issue Type"
+                    },
                     "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Click me!"},
-                        "action_id": "button_abc"
+                        "type": "static_select",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select an item",
+                            "emoji": True
+                        },
+                        "options": [
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Incident",
+                                    "emoji": True
+                                },
+                                "value": "value-0"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Problem",
+                                    "emoji": True
+                                },
+                                "value": "value-1"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Purchase",
+                                    "emoji": True
+                                },
+                                "value": "value-2"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Font Purchase",
+                                    "emoji": True
+                                },
+                                "value": "value-2"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "AWS Account Access",
+                                    "emoji": True
+                                },
+                                "value": "value-2"
+                            }
+                        ],
+                        "action_id": "static_select-action"
                     }
                 },
                 {
+                    "type": "divider"
+                },
+                {
                     "type": "input",
-                    "block_id": "input_c",
-                    "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
+                    "block_id": "create_new_ticket_summary",
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Summary"
+                    },
                     "element": {
                         "type": "plain_text_input",
-                        "action_id": "dreamy_input",
-                        "multiline": True
+                        "action_id": "create_new_ticket_summary"
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "input",
+                    "element": {
+                        "type": "plain_text_input",
+                        "multiline": True,
+                        "action_id": "plain_text_input-action"
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "Description",
+                        "emoji": True
+                    }
+                },
+                {
+                    "type": "divider"
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "Priority"
+                    },
+                    "accessory": {
+                        "type": "static_select",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "Select an item",
+                            "emoji": True
+                        },
+                        "options": [
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "None",
+                                    "emoji": True
+                                },
+                                "value": "none"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Normal",
+                                    "emoji": True
+                                },
+                                "value": "normal"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "High",
+                                    "emoji": True
+                                },
+                                "value": "high"
+                            }
+                        ],
+                        "action_id": "static_select-action"
                     }
                 }
             ]
