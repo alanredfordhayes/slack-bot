@@ -71,7 +71,7 @@ def approve_request(ack, body, client):
             "type": "modal",
             # View identifier
             "callback_id": "view_1",
-            "title": {"type": "plain_text", "text": "Create New Support Ticket"},
+            "title": {"type": "plain_text", "text": "New Support Ticket"},
             "blocks": [
                 {
                     "type": "divider"
