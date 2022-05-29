@@ -70,6 +70,9 @@ def lambda_handler(event, context):
     httpMethod = event['httpMethod']
     if httpMethod == 'POST':
         body = event['body']
+        logging.info(body)
+        body_type = type(body)
+        logging.info(body_type)
         body = json.loads(body)
         logging.info(body)
         event_id = body['event_id']
