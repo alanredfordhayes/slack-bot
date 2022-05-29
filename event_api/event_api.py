@@ -53,7 +53,7 @@ def handle_app_mentions(event, client, body):
     client.chat_postMessage(
         channel=channel,
         blocks = blocks,
-        text = "Here is a list of things that I do for you:"
+        text = "Here is a list of things that I do for you Symran Oruko Nyawade Nyamwaya:"
     )
     
 @app.action({
