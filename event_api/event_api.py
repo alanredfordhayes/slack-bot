@@ -40,7 +40,7 @@ def handle_app_mentions(event, client, body):
     channel = event['channel']
     blocks = [
 		{ "block_id": "help_headers","type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
-		{ "block_id": "help_description", "type": "section", "text": { "type": "plain_text", "text": "Here is a list of things that I do for you:", "emoji": True } },
+		{ "block_id": "help_description", "type": "section", "text": { "type": "plain_text", "text": "Here is a list of things that I do for you Symran Oruko Nyawade Nyamwaya:", "emoji": True } },
 		{   
 			"block_id": "help_buttons", "type": "actions", "elements": [
 				{ "action_id": "create_new_ticket", "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "Create New Ticket" }, "style": "primary", "value": "create_new_ticket" },
@@ -53,7 +53,7 @@ def handle_app_mentions(event, client, body):
     client.chat_postMessage(
         channel=channel,
         blocks = blocks,
-        text = "Here is a list of things that I do for you Symran Oruko Nyawade Nyamwaya:"
+        text = "Here is a list of things that I do for you:"
     )
     
 @app.action({
