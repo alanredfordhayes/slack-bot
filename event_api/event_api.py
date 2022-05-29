@@ -38,7 +38,8 @@ app = App(process_before_response=True)
 
 @app.event("app_mention")
 def handle_app_mentions(event, say):
-    say(event)
+    channel = event['channel']
+    say(channel)
 
 
 def lambda_handler(event, context):
