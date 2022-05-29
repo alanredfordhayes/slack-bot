@@ -44,10 +44,10 @@ def handle_app_mentions(event, client):
 		{ "type": "section", "text": { "type": "plain_text", "text": "Here is a list of things that I do for you:", "emoji": True } },
 		{
 			"type": "actions", "elements": [
-				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "Create New Ticket" }, "style": "primary", "value": "click_me_123" },
-				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Watchers" }, "style": "primary", "value": "click_me_123" },
-				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "View Ticket Status" }, "style": "primary", "value": "click_me_123" },
-				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Comments" }, "style": "primary", "value": "click_me_123" }
+				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "Create New Ticket" }, "style": "primary", "value": "create_new_ticket" },
+				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Watchers" }, "style": "primary", "value": "view_ticket_watchers" },
+				{ "type": "button", "text": { "type": "plain_text", "emoji": True, "text": "View Ticket Status" }, "style": "primary", "value": "view_ticket_status" },
+				{ "type": "button",	"text": { "type": "plain_text", "emoji": True, "text": "View Ticket Comments" }, "style": "primary", "value": "view_ticket)_comments" }
 			]
 		}
 	]
@@ -56,7 +56,12 @@ def handle_app_mentions(event, client):
         blocks = blocks,
         text = "Here is a list of things that I do for you:"
     )
-
+    
+@app.action("approve_button")
+def approve_request(ack, say):
+    # Acknowledge action request
+    ack()
+    say("Request approved 👍")
 
 def lambda_handler(event, context):
     httpMethod = event['httpMethod']
