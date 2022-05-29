@@ -1,0 +1,145 @@
+{
+    "type": "modal",
+    "callback_id": "view_1",
+    "title": {"type": "plain_text", "text": "New Support Ticket"},
+    "submit": {"type": "plain_text", "text": "Submit"},
+    "blocks": [
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Issue Type"
+            },
+            "accessory": {
+                "type": "static_select",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an item",
+                    "emoji": true
+                },
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Incident",
+                            "emoji": true
+                        },
+                        "value": "value-0"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Problem",
+                            "emoji": true
+                        },
+                        "value": "value-1"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Purchase",
+                            "emoji": true
+                        },
+                        "value": "value-2"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Font Purchase",
+                            "emoji": true
+                        },
+                        "value": "value-2"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "AWS Account Access",
+                            "emoji": true
+                        },
+                        "value": "value-2"
+                    }
+                ],
+                "action_id": "static_select-action"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "input",
+            "block_id": "create_new_ticket_summary",
+            "label": {
+                "type": "plain_text",
+                "text": "Summary"
+            },
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "create_new_ticket_summary"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "input",
+            "element": {
+                "type": "plain_text_input",
+                "multiline": true,
+                "action_id": "plain_text_input-action"
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "Description",
+                "emoji": true
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Priority"
+            },
+            "accessory": {
+                "type": "static_select",
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "Select an item",
+                    "emoji": true
+                },
+                "options": [
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "None",
+                            "emoji": true
+                        },
+                        "value": "none"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "Normal",
+                            "emoji": true
+                        },
+                        "value": "normal"
+                    },
+                    {
+                        "text": {
+                            "type": "plain_text",
+                            "text": "High",
+                            "emoji": true
+                        },
+                        "value": "high"
+                    }
+                ],
+                "action_id": "static_select-action"
+            }
+        }
+    ]
+}
