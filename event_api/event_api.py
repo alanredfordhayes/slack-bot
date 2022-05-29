@@ -37,7 +37,7 @@ def dynamodb_put_item(event):
 app = App(process_before_response=True)
 
 @app.event("app_mention")
-def handle_app_mentions(event, say):
+def handle_app_mentions(event, client):
     channel = event['channel']
     blocks = [
 		{ "type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
@@ -51,9 +51,10 @@ def handle_app_mentions(event, say):
 			]
 		}
 	]
-    say(
+    client.chat_postMessage(
+        channel=channel,
         blocks = blocks,
-        text = "How can I help you?"
+        text = "Here is a list of things that I do for you:"
     )
 
 
