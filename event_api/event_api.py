@@ -37,14 +37,9 @@ def dynamodb_put_item(event):
 app = App(process_before_response=True)
 
 @app.event("app_mention")
-def handle_app_mentions(body, say):
-    channel_id = body['event']['channel']
-    logging.info(body)
-    result = app.client.chat_postMessage(
-        channel=channel_id,
-        text="Hello world!"
-        # You could also use a blocks[] array to send richer content
-    )
+def handle_app_mentions(event, say):
+    say(event)
+
 
 def lambda_handler(event, context):
     httpMethod = event['httpMethod']
