@@ -39,7 +39,12 @@ app = App(process_before_response=True)
 
 @app.event("app_mention")
 def handle_app_mentions(event, client):
-    dynamodb_put_item(event)
+    body = event['body']
+    body = json.loads(body)
+    logging.info(body)
+    event_id = body['event_id']
+    event['EventID'] = event_id
+    table.put_item(Item = event)
     channel = event['channel']
     blocks = [
 		{ "block_id": "help_headers","type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
