@@ -39,6 +39,7 @@ app = App(process_before_response=True)
 
 @app.event("app_mention")
 def handle_app_mentions(event, client):
+    dynamodb_put_item(event)
     channel = event['channel']
     blocks = [
 		{ "block_id": "help_headers","type": "header", "text": { "type": "plain_text", "text": "Ticket Help", "emoji": True } },
@@ -70,15 +71,6 @@ def approve_request(ack, say):
 def lambda_handler(event, context):
     httpMethod = event['httpMethod']
     if httpMethod == 'POST':
-        body = event['body']
-        logging.info(body)
-        body_type = type(body)
-        logging.info(body_type)
-        body = json.loads(body)
-        logging.info(body)
-        event_id = body['event_id']
-        event['EventID'] = event_id
-        table.put_item(Item = event)
         slack_handler = SlackRequestHandler(app=app)
 
     return slack_handler.handle(event, context)
