@@ -60,7 +60,7 @@ def handle_app_mentions(event, client, body):
     "block_id": "help_buttons",
     "action_id": "create_new_ticket"
 })
-def approve_request(ack, body, client):
+def create_ticket(ack, body, client):
     # Acknowledge action request
     ack()
     
@@ -70,6 +70,34 @@ def approve_request(ack, body, client):
         trigger_id=body["trigger_id"],
         view=f_data
     )
+    
+@app.view("view_1")
+def handle_submission(ack, body, client, view, logger):
+    create_ticket_issue_type = view["state"]["values"]["create_ticket_issue_type"]["static_select_action"]
+    create_new_ticket_summary = view["state"]["values"]["create_ticket_issue_type"]["plain_text_input_action"]
+    create_new_ticket_description = view["state"]["values"]["create_new_ticket_description"]['plain_text_input_action']
+    create_new_ticket_priority = view["state"]["values"]["create_new_ticket_priority"]["static_select_action"]
+    user = body["user"]["id"]
+    errors = {}
+    msg = "Please complete the form with all document fields completed."
+    if create_ticket_issue_type == None:
+        errors['create_ticket_issue_type'] = msg
+    elif create_new_ticket_summary = None:
+        errors['create_new_ticket_summary'] = msg
+    elif create_new_ticket_description == None:
+        errors['create_new_ticket_description'] = msg
+    elif create_new_ticket_priority == None:
+        errors['create_new_ticket_priority'] = msg
+        
+    if len(errors) > 0:
+        ack(response_action="errors", errors=errors)
+        return
+
+    msg = "Request Submitted 👍"
+    try:
+        client.chat_postMessage(channel=user, text=msg)
+    except Exception as e:
+        logger.exception(f"Failed to post a message {e}")
     
 @app.action({
     "block_id": "help_buttons",

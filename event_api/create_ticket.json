@@ -8,6 +8,7 @@
             "type": "divider"
         },
         {
+            "block_id": "create_ticket_issue_type",
             "type": "section",
             "text": {
                 "type": "mrkdwn",
@@ -62,7 +63,7 @@
                         "value": "value-2"
                     }
                 ],
-                "action_id": "static_select-action"
+                "action_id": "static_select_action"
             }
         },
         {
@@ -77,18 +78,19 @@
             },
             "element": {
                 "type": "plain_text_input",
-                "action_id": "create_new_ticket_summary"
+                "action_id": "plain_text_input_action"
             }
         },
         {
             "type": "divider"
         },
         {
+            "block_id": "create_new_ticket_description", 
             "type": "input",
             "element": {
                 "type": "plain_text_input",
                 "multiline": true,
-                "action_id": "plain_text_input-action"
+                "action_id": "plain_text_input_action"
             },
             "label": {
                 "type": "plain_text",
@@ -100,6 +102,7 @@
             "type": "divider"
         },
         {
+            "block_id": "create_new_ticket_priority", 
             "type": "section",
             "text": {
                 "type": "mrkdwn",
@@ -138,7 +141,7 @@
                         "value": "high"
                     }
                 ],
-                "action_id": "static_select-action"
+                "action_id": "static_select_action"
             }
         }
     ]
