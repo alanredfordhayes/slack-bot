@@ -77,7 +77,7 @@ def handle_submission(ack, body, client, view, logger):
     create_new_ticket_summary = view["state"]["values"]["create_new_ticket_summary"]["plain_text_input_action"]
     create_new_ticket_description = view["state"]["values"]["create_new_ticket_description"]['plain_text_input_action']
     create_new_ticket_priority = view["state"]["values"]["create_new_ticket_priority"]["static_select_action"]
-    user = body["user"]["id"]
+    channel = body['event']['channel']
     errors = {}
     msg = "Please complete the form with all document fields completed."
     if create_ticket_issue_type == None:
@@ -93,9 +93,11 @@ def handle_submission(ack, body, client, view, logger):
         ack(response_action="errors", errors=errors)
         return
 
+    ack()
+
     msg = "Request Submitted 👍"
     try:
-        client.chat_postMessage(channel=user, text=msg)
+        client.chat_postMessage(channel=channel, text=msg)
     except Exception as e:
         logger.exception(f"Failed to post a message {e}")
     
