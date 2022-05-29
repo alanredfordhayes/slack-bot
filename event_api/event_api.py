@@ -60,6 +60,65 @@ def handle_app_mentions(event, client, body):
     "block_id": "help_buttons",
     "action_id": "create_new_ticket"
 })
+def approve_request(ack, body, client):
+    # Acknowledge action request
+    ack()
+    client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+        trigger_id=body["trigger_id"],
+        # View payload
+        view={
+            "type": "modal",
+            # View identifier
+            "callback_id": "view_1",
+            "title": {"type": "plain_text", "text": "create_new_ticket"},
+            "submit": {"type": "plain_text", "text": "Submit"},
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
+                    "accessory": {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "Click me!"},
+                        "action_id": "button_abc"
+                    }
+                },
+                {
+                    "type": "input",
+                    "block_id": "input_c",
+                    "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
+                    "element": {
+                        "type": "plain_text_input",
+                        "action_id": "dreamy_input",
+                        "multiline": True
+                    }
+                }
+            ]
+        }
+    )
+    
+@app.action({
+    "block_id": "help_buttons",
+    "action_id": "view_ticket_watchers"
+})
+def approve_request(ack, say):
+    # Acknowledge action request
+    ack()
+    say("Request approved 👍")
+    
+@app.action({
+    "block_id": "help_buttons",
+    "action_id": "view_ticket_status"
+})
+def approve_request(ack, say):
+    # Acknowledge action request
+    ack()
+    say("Request approved 👍")
+    
+@app.action({
+    "block_id": "help_buttons",
+    "action_id": "view_ticket_comments"
+})
 def approve_request(ack, say):
     # Acknowledge action request
     ack()
