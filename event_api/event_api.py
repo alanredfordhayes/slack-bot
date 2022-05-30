@@ -61,7 +61,6 @@ def handle_app_mentions(event, client, body):
     "action_id": "create_new_ticket"
 })
 def create_ticket(ack, body, client):
-    # Acknowledge action request
     ack()
     
     f = open('create_ticket.json')
