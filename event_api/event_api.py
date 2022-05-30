@@ -71,12 +71,12 @@ def create_ticket(ack, body, client):
     )
     
 @app.view("view_1")
-def handle_submission(ack, response_urls, client, view, logger):
+def handle_submission(ack, view, logger):
     create_ticket_issue_type = view["state"]["values"]["create_ticket_issue_type"]["static_select_action"]
     create_new_ticket_summary = view["state"]["values"]["create_new_ticket_summary"]["plain_text_input_action"]
     create_new_ticket_description = view["state"]["values"]["create_new_ticket_description"]['plain_text_input_action']
     create_new_ticket_priority = view["state"]["values"]["create_new_ticket_priority"]["static_select_action"]
-    channel = response_urls[0]['channel_id']
+    channel = "C03H3HK6EFN"
     errors = {}
     msg = "Please complete the form with all document fields completed."
     if create_ticket_issue_type == None:
