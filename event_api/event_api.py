@@ -7,8 +7,6 @@ from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-# DynamDB
-# Challenge Message
 def challenge_message(event):
     body = event['body']
     body = json.loads(body)
@@ -21,7 +19,6 @@ def challenge_message(event):
     responseObject['body'] = event_id
     return responseObject
 
-#DYNAMODB  
 table_name = os.environ['event_api_table']
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(table_name)
@@ -31,7 +28,6 @@ def dynamodb_put_item(body, event):
     event['EventID'] = event_id
     table.put_item(Item = event)
 
-# BOLT
 app = App(process_before_response=True)
 
 @app.event("app_mention")
@@ -56,22 +52,15 @@ def handle_app_mentions(event, client, body):
         text = "Here is a list of things that I do for you:"
     )
     
-@app.action({
-    "block_id": "help_buttons",
-    "action_id": "create_new_ticket"
-})
+@app.action({"block_id": "help_buttons","action_id": "create_new_ticket"})
 def create_ticket(ack, body, client):
     ack()
-    
     f = open('create_ticket.json')
     f_data = json.load(f)
-    client.views_open(
-        trigger_id=body["trigger_id"],
-        view=f_data
-    )
+    client.views_open( trigger_id=body["trigger_id"], view=f_data)
     
 @app.view("view_1")
-def handle_submission(ack, view, logger):
+def handle_submission(ack, client, view, logger):
     create_ticket_issue_type = view["state"]["values"]["create_ticket_issue_type"]["static_select_action"]
     create_new_ticket_summary = view["state"]["values"]["create_new_ticket_summary"]["plain_text_input_action"]
     create_new_ticket_description = view["state"]["values"]["create_new_ticket_description"]['plain_text_input_action']
@@ -79,68 +68,42 @@ def handle_submission(ack, view, logger):
     channel = "C03H3HK6EFN"
     errors = {}
     msg = "Please complete the form with all document fields completed."
-    if create_ticket_issue_type == None:
-        errors['create_ticket_issue_type'] = msg
-    elif create_new_ticket_summary == None:
-        errors['create_new_ticket_summary'] = msg
-    elif create_new_ticket_description == None:
-        errors['create_new_ticket_description'] = msg
-    elif create_new_ticket_priority == None:
-        errors['create_new_ticket_priority'] = msg
-        
+    if create_ticket_issue_type == None: errors['create_ticket_issue_type'] = msg
+    elif create_new_ticket_summary == None: errors['create_new_ticket_summary'] = msg
+    elif create_new_ticket_description == None: errors['create_new_ticket_description'] = msg
+    elif create_new_ticket_priority == None: errors['create_new_ticket_priority'] = msg
+    
     if len(errors) > 0:
         ack(response_action="errors", errors=errors)
         return
 
     ack()
-
     msg = "Request Submitted 👍"
-    try:
-        client.chat_postMessage(channel=channel, text=msg)
-    except Exception as e:
-        logger.exception(f"Failed to post a message {e}")
+    try: client.chat_postMessage(channel=channel, text=msg)
+    except Exception as e: logger.exception(f"Failed to post a message {e}")
     
-    
-@app.action({
-    "block_id": "create_ticket_issue_type",
-    "action_id": "static_select_action"
-})
+@app.action({ "block_id": "create_ticket_issue_type", "action_id": "static_select_action" })
 def create_ticket_issue_type(ack, body, logger):
     ack()
     logger.info(body)
 
-@app.action({
-    "block_id": "create_new_ticket_priority",
-    "action_id": "static_select_action"
-})
+@app.action({ "block_id": "create_new_ticket_priority", "action_id": "static_select_action"})
 def create_ticket_issue_type(ack, body, logger):
     ack()
     logger.info(body)
 
-@app.action({
-    "block_id": "help_buttons",
-    "action_id": "view_ticket_watchers"
-})
+@app.action({ "block_id": "help_buttons", "action_id": "view_ticket_watchers" })
 def approve_request(ack, say):
-    # Acknowledge action request
     ack()
     say("Request approved 👍")
     
-@app.action({
-    "block_id": "help_buttons",
-    "action_id": "view_ticket_status"
-})
+@app.action({ "block_id": "help_buttons", "action_id": "view_ticket_status" })
 def approve_request(ack, say):
-    # Acknowledge action request
     ack()
     say("Request approved 👍")
     
-@app.action({
-    "block_id": "help_buttons",
-    "action_id": "view_ticket_comments"
-})
+@app.action({ "block_id": "help_buttons", "action_id": "view_ticket_comments" })
 def approve_request(ack, say):
-    # Acknowledge action request
     ack()
     say("Request approved 👍")
 
