@@ -8,9 +8,9 @@ resource "aws_api_gateway_deployment" "slack_bot" {
 
   triggers = {
     redeployment = sha1(jsonencode([
-      aws_api_gateway_resource.slack_bot.id,
-      aws_api_gateway_method.slack_bot.id,
-      aws_api_gateway_integration.slack_bot.id,
+      aws_api_gateway_resource.event_api.id,
+      aws_api_gateway_method.event_api.id,
+      aws_api_gateway_integration.event_api.id,
     ]))
   }
 
