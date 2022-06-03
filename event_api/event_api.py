@@ -4,7 +4,7 @@ from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 import logging
 logging.getLogger().setLevel(logging.INFO)
 
-app = AsyncApp(process_before_response=True)
+app = AsyncApp(process_before_response=True, token=os.environ.get("SLACK_BOT_TOKEN"), signing_secret=os.environ.get("SLACK_SIGNING_SECRET"))
 
 @app.event("app_mentioon")
 async def app_mention(event, say):
