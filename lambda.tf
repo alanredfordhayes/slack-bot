@@ -1,6 +1,5 @@
 # LAMBDA
 ## EVENT API
-
 resource "aws_lambda_layer_version" "slack_bolt" {
   filename   = local.aws_lambda_layer_version_slack_bolt_filename
   layer_name = local.aws_lambda_layer_version_slack_bolt_layer_name
@@ -37,5 +36,3 @@ resource "aws_cloudwatch_log_group" "event_api" {
   name = local.aws_cloudwatch_log_event_api_group_name
   retention_in_days = 30
 }
-
-##DB PROCESSOR

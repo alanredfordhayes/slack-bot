@@ -10,29 +10,3 @@ resource "aws_dynamodb_table" "event_api" {
     type = local.aws_dynamodb_table_attribute_type
   }
 }
-
-resource "aws_appautoscaling_target" "event_api" {
-  max_capacity       = local.aws_appautoscaling_target_max_capacity
-  min_capacity       = local.aws_appautoscaling_target_min_capacity
-  resource_id        = "table/${aws_dynamodb_table.event_api.name}"
-  scalable_dimension = local.aws_appautoscaling_target_scalable_dimension
-  service_namespace  = local.aws_appautoscaling_target_service_namespace
-}
-
-resource "aws_appautoscaling_policy" "event_api" {
-  name               = "DynamoDBReadCapacityUtilization:${aws_appautoscaling_target.event_api.resource_id}"
-  policy_type        = local.aws_appautoscaling_policy_policy_type
-  resource_id        = aws_appautoscaling_target.event_api.resource_id
-  scalable_dimension = aws_appautoscaling_target.event_api.scalable_dimension
-  service_namespace  = aws_appautoscaling_target.event_api.service_namespace
-
-  target_tracking_scaling_policy_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = local.aws_appautoscaling_policy_predefined_metric_type
-    }
-
-    target_value = 70
-  }
-
-  depends_on = [aws_appautoscaling_target.event_api]
-}
