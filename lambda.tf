@@ -31,8 +31,3 @@ resource "aws_lambda_permission" "event_api" {
   function_name = aws_lambda_function.event_api.function_name
   principal     = local.aws_lambda_permission_principal
 }
-
-resource "aws_cloudwatch_log_group" "event_api" {
-  name = local.aws_cloudwatch_log_event_api_group_name
-  retention_in_days = 30
-}
